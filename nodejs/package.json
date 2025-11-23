@@ -1,0 +1,12 @@
+{
+  "name": "binarytrees-node",
+  "version": "1.0.0",
+  "description": "Binary Trees benchmark for Node.js",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js 16"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {}
+}
