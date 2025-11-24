@@ -193,6 +193,11 @@ def main() -> int:
             cwd=ROOT / "rust",
             template=["./target/release/rust", "{n}"],
         ),
+        Target(
+            name=".NET",
+            cwd=ROOT / "dotnet",
+            template=["dotnet", "Program.cs", "{n}"],
+        ),
     ]
 
     results: List[Dict[str, float]] = []
