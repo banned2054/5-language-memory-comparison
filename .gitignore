@@ -1,7 +1,7 @@
 # Python / pip
-python/__pycache__/
-python/.venv/
-python/*.pyc
+__pycache__/
+.venv/
+*.pyc
 
 # Node.js
 nodejs/node_modules/
