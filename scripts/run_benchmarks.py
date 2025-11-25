@@ -69,7 +69,19 @@ def ensure_rust_built() -> None:
         raise RuntimeError(
             f"cargo build --release 失败：{exc.stderr or exc.stdout}"
         ) from exc
-
+    
+def ensure_cpp_built() -> None:
+    cpp_dir = ROOT / "cpp"
+    subprocess.run(
+        ["g++", "-O3", "-std=c++20", "manual.cc", "-o", "binarytrees_manual"],
+        cwd=cpp_dir,
+        check=True,
+    )
+    subprocess.run(
+        ["g++", "-O3", "-std=c++20", "unique_ptr.cc", "-o", "binarytrees_unique"],
+        cwd=cpp_dir,
+        check=True,
+    )
 
 def run_measurement(
     target: Target,
@@ -145,7 +157,7 @@ def parse_args() -> argparse.Namespace:
         "--depths",
         type=int,
         nargs="+",
-        default=[10, 16],
+        default=[10, 16, 24],
         help="需要测试的最大树深度列表（默认：10 16）。",
     )
     parser.add_argument(
@@ -162,6 +174,7 @@ def main() -> int:
     ensure_go_built()
     ensure_java_compiled()
     ensure_rust_built()
+    ensure_cpp_built()
 
     go_cache = ROOT / "go" / ".gocache"
     go_env = {"GOCACHE": str(go_cache)}
@@ -192,6 +205,16 @@ def main() -> int:
             name="Rust",
             cwd=ROOT / "rust",
             template=["./target/release/rust", "{n}"],
+        ),
+        Target(
+            name="c++带delete",
+            cwd=ROOT / "cpp",
+            template=["./binarytrees_manual", "{n}"],
+        ),
+        Target(
+            name="C++智能指针",
+            cwd=ROOT / "cpp",
+            template=["./binarytrees_unique", "{n}"],
         ),
         Target(
             name=".NET",

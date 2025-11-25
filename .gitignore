@@ -23,3 +23,5 @@ figures/
 
 # Misc
 .DS_Store
+
+cpp/binarytrees*
